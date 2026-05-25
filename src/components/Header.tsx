@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
-import { CallMemoLogo } from './CallMemoLogo'
+import { siteConfig } from '../config/site'
+import logoImg from '../assets/logo.png'
 
 const navItems = [
   { label: '주요 기능', href: '#features' },
@@ -15,8 +16,9 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-primary-bg/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
         <a href="#" className="flex items-center gap-2.5">
-          <CallMemoLogo />
-          <span className="text-lg font-bold text-text-dark">CallMemo</span>
+          {/* <CallMemoLogo /> */}
+          <img src={logoImg} alt="CallMemo Logo" className="h-8 w-8" />
+          <span className="text-lg font-bold text-text-dark">{siteConfig.appName}</span>
         </a>
 
         <nav className="hidden items-center gap-6 md:flex">

@@ -1,8 +1,8 @@
 export const siteConfig = {
-  appName: 'CallMemo',
-  version: '0.0.1',
-  publishedAt: '2026.05.24',
-  fileSizeMb: '51.1',
+  appName: '콜메모',
+  version: '1.1.0',
+  publishedAt: '2026.05.25',
+  fileSizeMb: '19.3',
 } as const
 
 export function getApkFileName(version: string = siteConfig.version): string {

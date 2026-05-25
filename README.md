@@ -32,7 +32,7 @@ cp build/app/outputs/flutter-apk/app-release.apk \
 
 ```ts
 export const siteConfig = {
-  appName: 'CallMemo',
+  appName: '콜메모',
   version: '1.0.1',           // APK 파일명의 버전과 동일
   publishedAt: '2026.05.24',
   fileSizeMb: '24.0',         // ls -lh 로 확인 후 갱신

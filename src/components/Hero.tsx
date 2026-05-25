@@ -1,10 +1,11 @@
 import { Calendar, Phone } from 'lucide-react'
+import mockupImg from '../assets/mockup.png'
 
 function PhoneMockup() {
   return (
     <div className="relative mx-auto w-[220px] shrink-0 lg:w-[260px]">
       <div className="rounded-[2rem] border-[6px] border-gray-800 bg-gray-900 p-2 shadow-2xl">
-        <div className="overflow-hidden rounded-[1.5rem] bg-white">
+        {/* <div className="overflow-hidden rounded-[1.5rem] bg-white">
           <div className="bg-primary px-4 py-3 text-center text-xs font-semibold text-white">
             CallMemo
           </div>
@@ -29,6 +30,13 @@ function PhoneMockup() {
               일정 등록
             </button>
           </div>
+        </div> */}
+        <div className="overflow-hidden rounded-[1.5rem]">
+          <img
+            src={mockupImg}
+            alt="Phone Mockup"
+            className="w-full object-cover"
+          />
         </div>
       </div>
     </div>

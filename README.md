@@ -28,14 +28,14 @@ cp build/app/outputs/flutter-apk/app-release.apk \
   ../callmemo-distribution/public/callmemo-v1.0.1.apk
 ```
 
-3. [`src/config/site.ts`](src/config/site.ts)에서 버전 정보를 맞춥니다.
+3. [`src/config/site.ts`](src/config/site.ts)에서 `version`만 APK 파일명과 맞춥니다. `publishedAt`(빌드 당일, `YYYY.MM.DD`)과 `fileSizeMb`는 빌드 시 `public/` APK에서 자동으로 채워집니다.
 
 ```ts
 export const siteConfig = {
   appName: '콜메모',
-  version: '1.0.1',           // APK 파일명의 버전과 동일
-  publishedAt: '2026.05.24',
-  fileSizeMb: '24.0',         // ls -lh 로 확인 후 갱신
+  version: '1.0.1', // APK 파일명의 버전과 동일
+  publishedAt: __SITE_PUBLISHED_AT__,
+  fileSizeMb: __SITE_FILE_SIZE_MB__,
 } as const
 ```
 

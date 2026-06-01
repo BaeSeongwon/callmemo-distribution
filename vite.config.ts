@@ -10,4 +10,12 @@ const root = path.dirname(fileURLToPath(import.meta.url))
 export default defineConfig({
   plugins: [siteMetaPlugin(root), react(), tailwindcss()],
   base: '/callmemo-distribution/',
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(root, 'index.html'),
+        privacy: path.resolve(root, 'privacy.html'),
+      },
+    },
+  },
 })

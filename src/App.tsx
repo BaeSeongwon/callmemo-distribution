@@ -1,22 +1,22 @@
-import { Header } from './components/Header'
+import { SiteLayout } from './components/SiteLayout'
 import { Hero } from './components/Hero'
 import { DownloadCard } from './components/DownloadCard'
 import { Features } from './components/Features'
 import { InstallGuide } from './components/InstallGuide'
-import { Footer } from './components/Footer'
+import { FaqSection } from './components/FaqSection'
 
 function App() {
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
+    <SiteLayout>
       <main>
         <Hero />
         <DownloadCard />
         <Features />
         <InstallGuide />
+        <FaqSection />
+        {/* <ContactSection /> */}
       </main>
-      <Footer />
-    </div>
+    </SiteLayout>
   )
 }
 

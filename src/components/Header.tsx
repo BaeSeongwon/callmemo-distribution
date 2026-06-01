@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
-import { siteConfig } from '../config/site'
+import { getSiteHomeUrl, siteConfig } from '../config/site'
 import logoImg from '../assets/logo.png'
 
 const navItems = [
@@ -9,41 +9,49 @@ const navItems = [
   { label: 'FAQ', href: '#faq' },
 ]
 
-export function Header() {
+interface HeaderProps {
+  showMainNav?: boolean
+}
+
+export function Header({ showMainNav = true }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const homeUrl = getSiteHomeUrl()
 
   return (
     <header className="sticky top-0 z-50 bg-primary-bg/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
-        <a href="#" className="flex items-center gap-2.5">
-          {/* <CallMemoLogo /> */}
+        <a href={homeUrl} className="flex items-center gap-2.5">
           <img src={logoImg} alt="CallMemo Logo" className="h-8 w-8" />
           <span className="text-lg font-bold text-text-dark">{siteConfig.appName}</span>
         </a>
 
-        <nav className="hidden items-center gap-6 md:flex">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-text-muted transition-colors hover:text-primary"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
+        {showMainNav && (
+          <nav className="hidden items-center gap-6 md:flex">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-sm font-medium text-text-muted transition-colors hover:text-primary"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        )}
 
-        <button
-          type="button"
-          className="rounded-lg p-2 text-text-dark md:hidden"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
-        >
-          {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        {showMainNav && (
+          <button
+            type="button"
+            className="rounded-lg p-2 text-text-dark md:hidden"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
+          >
+            {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        )}
       </div>
 
-      {menuOpen && (
+      {showMainNav && menuOpen && (
         <nav className="border-t border-blue-100 bg-white px-5 py-3 md:hidden">
           {navItems.map((item) => (
             <a

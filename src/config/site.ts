@@ -4,7 +4,7 @@ export const distributionSiteUrl =
 
 export const siteConfig = {
   appName: '콜메모',
-  version: '1.1.3',
+  version: '1.2.0',
   publishedAt: __SITE_PUBLISHED_AT__,
   fileSizeMb: __SITE_FILE_SIZE_MB__,
   /** 개인정보 보호·서비스 문의 (GitHub Issues) */

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
-import { getSiteHomeUrl, siteConfig } from '../config/site'
-import logoImg from '../assets/logo.png'
+import { getSiteHomeUrl } from '../config/site'
+import { useSiteProfile } from '../hooks/useSiteProfile'
 
 const navItems = [
   { label: '주요 기능', href: '#features' },
@@ -16,13 +16,14 @@ interface HeaderProps {
 export function Header({ showMainNav = true }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const homeUrl = getSiteHomeUrl()
+  const { appName, logo } = useSiteProfile()
 
   return (
     <header className="sticky top-0 z-50 bg-primary-bg/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
         <a href={homeUrl} className="flex items-center gap-2.5">
-          <img src={logoImg} alt="CallMemo Logo" className="h-8 w-8" />
-          <span className="text-lg font-bold text-text-dark">{siteConfig.appName}</span>
+          <img src={logo.src} alt={logo.alt} className="h-8 w-8" />
+          <span className="text-lg font-bold text-text-dark">{appName}</span>
         </a>
 
         {showMainNav && (

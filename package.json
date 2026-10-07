@@ -4,15 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "SITE=callmemo vite",
+    "dev:callmessage": "SITE=callmessage vite",
+    "build": "tsc -b && npm run build:callmemo && npm run build:callmessage",
+    "build:callmemo": "SITE=callmemo vite build",
+    "build:callmessage": "node scripts/ensure-callmessage-apk.mjs && SITE=callmessage vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "lucide-react": "^1.16.0",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "react-router-dom": "^7.18.4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -2,13 +2,20 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type { Plugin } from 'vite'
 
-function readSiteVersion(siteTsPath: string): string {
-  const content = fs.readFileSync(siteTsPath, 'utf-8')
-  const match = content.match(/version:\s*['"]([^'"]+)['"]/)
+type SiteId = 'callmemo' | 'callmessage'
+
+function readProfileVersion(profilePath: string): string {
+  const content = fs.readFileSync(profilePath, 'utf-8')
+  const match = content.match(/const VERSION = '([^']+)'/)
   if (!match) {
-    throw new Error(`Could not read version from ${siteTsPath}`)
+    throw new Error(`Could not read VERSION from ${profilePath}`)
   }
   return match[1]
+}
+
+function apkFileName(site: SiteId, version: string): string {
+  const prefix = site === 'callmessage' ? 'callmessage' : 'callmemo'
+  return `${prefix}-v${version}.apk`
 }
 
 function formatPublishedAt(date: Date): string {
@@ -23,17 +30,21 @@ function getApkSizeMb(apkPath: string): string {
   return (bytes / (1024 * 1024)).toFixed(1)
 }
 
-export function siteMetaPlugin(root: string): Plugin {
+export function siteMetaPlugin(root: string, site: SiteId): Plugin {
   return {
     name: 'site-meta',
     config() {
-      const siteTsPath = path.join(root, 'src/config/site.ts')
-      const version = readSiteVersion(siteTsPath)
-      const apkPath = path.join(root, 'public', `callmemo-v${version}.apk`)
+      const profilePath = path.join(root, 'src/sites', site, 'profile.ts')
+      const version = readProfileVersion(profilePath)
+      const apkName = apkFileName(site, version)
+      const apkPath = path.join(root, 'public', apkName)
 
       if (!fs.existsSync(apkPath)) {
         throw new Error(
-          `APK not found: public/callmemo-v${version}.apk (version from src/config/site.ts)`,
+          `APK not found: public/${apkName} (version from ${profilePath}). ` +
+            (site === 'callmessage'
+              ? 'Run `node scripts/ensure-callmessage-apk.mjs` or add the release APK.'
+              : 'Add the APK to public/.'),
         )
       }
 
@@ -42,9 +53,31 @@ export function siteMetaPlugin(root: string): Plugin {
 
       return {
         define: {
+          __SITE_ID__: JSON.stringify(site),
           __SITE_PUBLISHED_AT__: JSON.stringify(publishedAt),
           __SITE_FILE_SIZE_MB__: JSON.stringify(fileSizeMb),
         },
+      }
+    },
+    closeBundle() {
+      const outDir =
+        site === 'callmessage'
+          ? path.join(root, 'dist/callmessage-distribution')
+          : path.join(root, 'dist')
+
+      if (site === 'callmessage') {
+        const nestedIndex = path.join(outDir, 'callmessage', 'index.html')
+        const rootIndex = path.join(outDir, 'index.html')
+        if (fs.existsSync(nestedIndex)) {
+          fs.renameSync(nestedIndex, rootIndex)
+          fs.rmSync(path.join(outDir, 'callmessage'), { recursive: true, force: true })
+        }
+      }
+
+      const indexHtml = path.join(outDir, 'index.html')
+      const notFoundHtml = path.join(outDir, '404.html')
+      if (fs.existsSync(indexHtml)) {
+        fs.copyFileSync(indexHtml, notFoundHtml)
       }
     },
   }

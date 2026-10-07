@@ -1,6 +1,7 @@
-import { ChevronRight, HelpCircle,  Shield } from 'lucide-react'
+import { ChevronRight, HelpCircle, Shield } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { getPrivacyPolicyUrl, siteConfig } from '../config/site'
+import { getPrivacyPolicyUrl, getSiteConfig } from '../config/site'
+import { useSiteProfile } from '../hooks/useSiteProfile'
 
 interface FooterLink {
   icon: LucideIcon
@@ -9,13 +10,17 @@ interface FooterLink {
   external?: boolean
 }
 
-const footerLinks: FooterLink[] = [
-  { icon: HelpCircle, label: '자주 묻는 질문', href: '#faq' },
-  { icon: Shield, label: '개인정보처리방침', href: getPrivacyPolicyUrl() },
-  // { icon: Mail, label: '문의하기', href: '#contact' },
-]
-
 export function Footer() {
+  const { showPrivacyPolicyLink } = useSiteProfile()
+  const { operatorName } = getSiteConfig()
+
+  const footerLinks: FooterLink[] = [
+    { icon: HelpCircle, label: '자주 묻는 질문', href: '#faq' },
+    ...(showPrivacyPolicyLink
+      ? [{ icon: Shield, label: '개인정보처리방침', href: getPrivacyPolicyUrl() }]
+      : []),
+  ]
+
   return (
     <footer className="px-5 pb-10 pt-6">
       <div className="mx-auto max-w-5xl">
@@ -37,7 +42,7 @@ export function Footer() {
         </div>
 
         <p className="mt-8 text-center text-xs text-text-muted">
-          © 2024 {siteConfig.operatorName}. All rights reserved.
+          © 2024 {operatorName}. All rights reserved.
         </p>
       </div>
     </footer>

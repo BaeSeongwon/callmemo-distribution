@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
 import { ArrowLeft } from 'lucide-react'
-import { getSiteHomeUrl, siteConfig } from '../config/site'
+import { Link, Navigate } from 'react-router-dom'
+import { siteConfig } from '../config/site'
+import { useSiteProfile } from '../hooks/useSiteProfile'
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -12,16 +14,22 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 }
 
 export function PrivacyPolicyPage() {
+  const { showPrivacyPolicyLink } = useSiteProfile()
+
+  if (!showPrivacyPolicyLink) {
+    return <Navigate to="/" replace />
+  }
+
   return (
     <main className="px-5 py-8">
       <div className="mx-auto max-w-3xl">
-        <a
-          href={getSiteHomeUrl()}
+        <Link
+          to="/"
           className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-blue-700"
         >
           <ArrowLeft className="h-4 w-4" />
           홈으로
-        </a>
+        </Link>
 
         <h1 className="text-2xl font-bold text-text-dark md:text-3xl">개인정보처리방침</h1>
         <p className="mt-2 text-sm text-text-muted">

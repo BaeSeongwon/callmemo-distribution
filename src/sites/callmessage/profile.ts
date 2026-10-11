@@ -3,7 +3,7 @@ import mockupImg from '../../assets/mockup.png'
 import logoImg from './assets/logo.svg'
 import type { SiteProfileFactory } from '../types'
 
-const VERSION = '0.1.0-beta'
+const VERSION = '0.1.1-beta'
 
 export const createCallmessageProfile: SiteProfileFactory = (meta) => ({
   id: 'callmessage',
